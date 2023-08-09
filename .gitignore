@@ -1,0 +1,11 @@
+# Virtual environment
+.env/
+
+# VSCode settings
+.vscode/
+
+# Compiled files
+*.pyc
+*.pyo
+
+.ruff_cache/
