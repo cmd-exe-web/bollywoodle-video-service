@@ -9,3 +9,6 @@
 *.pyo
 
 .ruff_cache/
+
+# Test video files
+*.mp4
