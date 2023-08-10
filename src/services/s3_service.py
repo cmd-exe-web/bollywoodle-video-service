@@ -1,3 +1,4 @@
+import os
 import boto3
 from ..config import AWS_ACCESS_KEY, AWS_SECRET_KEY
 from ..constants import BUCKET_NAME
@@ -15,3 +16,10 @@ class S3Service:
     def retrieve_object_names(self):
         object_names = [obj.key for obj in self.bucket.objects.all()]
         return object_names
+
+    def upload_object(self, file_name):
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        file_path = os.path.join(root_dir, file_name)
+        object_name = file_name
+
+        self.bucket.upload_file(file_path, object_name)

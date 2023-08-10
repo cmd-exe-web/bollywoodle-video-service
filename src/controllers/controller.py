@@ -33,3 +33,13 @@ class VideoClipResource(Resource):
             return {"success": True}, 200
         except Exception as e:
             return {"error": str(e)}, 500
+
+
+class S3Resource(Resource):
+    def post(self, file_name):
+        try:
+            s3_service = S3Service()
+            s3_service.upload_object(file_name)
+            return {"message": "File uploaded successfully"}, 201
+        except Exception as e:
+            return {"message": str(e)}, 500
