@@ -4,6 +4,7 @@ from .controllers.controller import (
     ListObjectNamesResource,
     VideoClipResource,
     S3Resource,
+    MongoDbResource,
 )
 
 
@@ -14,6 +15,7 @@ api = Api(app)
 api.add_resource(ListObjectNamesResource, "/list-object-names")
 api.add_resource(VideoClipResource, "/generate-clip")
 api.add_resource(S3Resource, "/upload/<string:file_name>")
+api.add_resource(MongoDbResource, "/mongodb/<string:document_name>")
 
 if __name__ == "__main__":
     app.run(debug=True)
