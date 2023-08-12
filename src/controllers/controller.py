@@ -1,5 +1,4 @@
-from flask import request
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 from src.services.s3_service import S3Service
 from src.services.video_clip_service import VideoClipService
 
@@ -14,18 +13,20 @@ class ListObjectNamesResource(Resource):
             return {"error": str(e)}, 500
 
 
-class VideoClipResource(Resource):
-    def get(self):
+class GenerateClip(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            "video_urlfex", type=str, required=True, help="Video URL is required"
+        )
+        args = parser.parse_args()
+
+        video_url = args["video_url"]
+        print(video_url)
         try:
-            video_url = request.headers.get("Video-Url")
-
-            if video_url is None:
-                return {"error": "Video-Url header not found in the request."}, 400
-
-            save_video_path = "./video5.mp4"
+            save_video_path = "./video7.mp4"
             num_frames_to_collect = 50
             clip_service = VideoClipService()
-            print("Download the video clip")  # Remove in prod
             clip_service.create_and_save_clip(
                 video_url, save_video_path, num_frames_to_collect
             )
