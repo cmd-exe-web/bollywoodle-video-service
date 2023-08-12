@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from src.services.s3_service import S3Service
 from src.services.video_clip_service import VideoClipService
+from src.services.mongodb_service import DocumentService
 
 
 class ListObjectNamesResource(Resource):
@@ -44,3 +45,9 @@ class S3Resource(Resource):
             return {"message": "File uploaded successfully"}, 201
         except Exception as e:
             return {"message": str(e)}, 500
+
+
+class MongoDbResource(Resource):
+    def post(self, document_name):
+        DocumentService.add_document(document_name)
+        return {"message": f'Document "{document_name}" added to collection'}, 201
