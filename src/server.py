@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_bcrypt import Bcrypt
 from .controllers.controller import (
     ListObjectNamesResource,
     GenerateClip,
@@ -10,7 +11,7 @@ from .controllers.controller import (
 
 app = Flask(__name__)
 api = Api(app)
-
+bcrypt = Bcrypt(app)
 
 api.add_resource(ListObjectNamesResource, "/list-object-names")
 api.add_resource(GenerateClip, "/generate-clip")

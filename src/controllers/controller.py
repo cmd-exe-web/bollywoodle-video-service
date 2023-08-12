@@ -1,7 +1,9 @@
+from flask import request
 from flask_restful import Resource, reqparse
 from src.services.s3_service import S3Service
 from src.services.video_clip_service import VideoClipService
 from src.services.mongodb_service import DocumentService
+from src.models.user import User
 
 
 class ListObjectNamesResource(Resource):
@@ -51,3 +53,13 @@ class MongoDbResource(Resource):
     def post(self, document_name):
         DocumentService.add_document(document_name)
         return {"message": f'Document "{document_name}" added to collection'}, 201
+
+
+class SignupApi(Resource):
+    def post(self):
+        body = request.get_json()
+        user = User(**body)
+        user.hash_password()
+        user.save()
+        id = user.id
+        return {"id": str(id)}, 200

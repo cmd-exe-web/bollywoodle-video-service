@@ -1,5 +1,6 @@
 # Virtual environment
 .env/
+.venv/
 
 # VSCode settings
 .vscode/
@@ -7,6 +8,9 @@
 # Compiled files
 *.pyc
 *.pyo
+
+# Notebook
+*.ipynb
 
 .ruff_cache/
 
