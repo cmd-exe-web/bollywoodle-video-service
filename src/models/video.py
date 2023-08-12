@@ -1,7 +1,7 @@
-from ..config import db
+import mongoengine as me
 
 
-class Video(db.Document):
-    name = db.StringField(required=True, unique=True)
-    url = db.URLField(required=False)
-    s3_object_key = db.StringField(required=True, unique=True)
+class Video(me.Document):
+    name = me.StringField(required=True, unique=True)
+    url = me.URLField(required=False)
+    s3_object_key = me.StringField(required=True, unique=True)
