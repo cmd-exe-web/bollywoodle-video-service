@@ -2,14 +2,13 @@ from flask import Flask
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
 from src.controllers.controller import (
-    ListObjectNamesResource,
-    GenerateClip,
-    S3Resource,
-    MongoDbResource,
-    SignupApi,
+    GenerateClipResource,
+    SignupResource,
+    LoginResource,
 )
 from src.config import MONGO_URI, DATABASE_NAME
 from flask_mongoengine import MongoEngine
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
@@ -19,14 +18,14 @@ app.config["MONGODB_SETTINGS"] = {
     "db": DATABASE_NAME,
     "host": MONGO_URI,
 }
+app.config.from_envvar("ENV_FILE_LOCATION")
 db = MongoEngine(app)
+jwt = JWTManager(app)
 
 
-api.add_resource(ListObjectNamesResource, "/list-object-names")
-api.add_resource(GenerateClip, "/generate-clip")
-api.add_resource(S3Resource, "/upload/<string:file_name>")
-api.add_resource(MongoDbResource, "/mongodb/<string:document_name>")
-api.add_resource(SignupApi, "/auth")
+api.add_resource(GenerateClipResource, "/generate-clip")
+api.add_resource(SignupResource, "/auth/signup")
+api.add_resource(LoginResource, "/auth/login")
 
 
 if __name__ == "__main__":

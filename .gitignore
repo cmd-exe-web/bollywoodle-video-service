@@ -2,12 +2,15 @@
 .env/
 .venv/
 
+
 # VSCode settings
 .vscode/
 
 # Compiled files
 *.pyc
 *.pyo
+
+src/.env
 
 # Notebook
 *.ipynb
