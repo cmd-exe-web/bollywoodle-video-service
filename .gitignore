@@ -1,5 +1,6 @@
 # Virtual environment
 .env/
+.venv/
 
 # VSCode settings
 .vscode/
@@ -12,3 +13,6 @@
 
 # Test video files
 *.mp4
+
+# Enviroment variables
+.env

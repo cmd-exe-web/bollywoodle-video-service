@@ -18,7 +18,7 @@ class GenerateClip(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument(
-            "video_urlfex", type=str, required=True, help="Video URL is required"
+            "video_url", type=str, required=True, help="Video URL is required"
         )
         args = parser.parse_args()
 
