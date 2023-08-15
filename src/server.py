@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from dotenv import load_dotenv
 from .controllers.controller import (
     ListObjectNamesResource,
     GenerateClip,
@@ -7,6 +8,7 @@ from .controllers.controller import (
     MongoDbResource,
 )
 
+load_dotenv()
 
 app = Flask(__name__)
 api = Api(app)

@@ -25,7 +25,7 @@ class GenerateClip(Resource):
         video_url = args["video_url"]
         print(video_url)
         try:
-            save_video_path = "./video7.mp4"
+            save_video_path = "./video8.mp4"
             num_frames_to_collect = 50
             clip_service = VideoClipService()
             clip_service.create_and_save_clip(
