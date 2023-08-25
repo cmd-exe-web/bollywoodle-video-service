@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+
 from flask_bcrypt import Bcrypt
 from src.controllers.controller import (
     GenerateClipResource,

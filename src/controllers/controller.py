@@ -30,7 +30,6 @@ class GenerateClipResource(Resource):
         args = video_parser.parse_args()
         video_url = args["video_url"]
         video_name = args["video_name"]
-        print(video_url)
         try:
             uuid1 = uuid.uuid4()
             save_path = SAVE_VIDEO_PATH.format(uuid1)

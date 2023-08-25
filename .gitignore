@@ -2,7 +2,6 @@
 .env/
 .venv/
 
-
 # VSCode settings
 .vscode/
 
@@ -19,3 +18,6 @@ src/.env
 
 # Test video files
 *.mp4
+
+# Enviroment variables
+.env
