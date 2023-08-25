@@ -1,7 +1,9 @@
 import os
 import boto3
-from ..config import AWS_ACCESS_KEY, AWS_SECRET_KEY
 from ..constants import BUCKET_NAME
+
+AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY")
+AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
 
 
 class S3Service:

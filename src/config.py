@@ -1,11 +1,17 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-# AWS Configurations
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY")
+class Config:
+    DEBUG = False
+    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 
-# Mongodb Configurations
-MONGO_URI = "mongodb+srv://admin123:XOC8bvVpsXwlUqu4@cluster0.vipj8mz.mongodb.net/bollywoodle?retryWrites=true&w=majority"
-DATABASE_NAME = "bollywoodle"
-COLLECTION_NAME = "videos"
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+    # Mongodb Configurations
+    MONGODB_SETTINGS = {"db": "bollywoodle", "host": os.environ.get("MONGO_URI")}
+    COLLECTION_NAME = "videos"

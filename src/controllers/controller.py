@@ -5,6 +5,8 @@ import datetime
 from flask_jwt_extended import create_access_token
 import uuid
 from src.constants import NUM_FRAMES_TO_COLLECT, SAVE_VIDEO_PATH
+from src.services.s3_service import S3Service
+from src.models.video import Video
 
 user_parser = reqparse.RequestParser()
 user_parser.add_argument(
@@ -27,7 +29,7 @@ class GenerateClipResource(Resource):
     def post(self):
         args = video_parser.parse_args()
         video_url = args["video_url"]
-        args["video_name"]
+        video_name = args["video_name"]
         print(video_url)
         try:
             uuid1 = uuid.uuid4()
@@ -35,8 +37,8 @@ class GenerateClipResource(Resource):
             VideoClipService().create_and_save_clip(
                 video_url, save_path, NUM_FRAMES_TO_COLLECT
             )
-            # S3Service().upload_object(save_path)
-            # Video(name=video_name, url=video_url, s3_object_key=uuid1).save()
+            S3Service().upload_object(save_path)
+            Video(name=video_name, url=video_url, s3_object_key=str(uuid1)).save()
 
             return {"success": True}, 200
         except Exception as e:

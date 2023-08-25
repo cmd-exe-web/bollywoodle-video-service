@@ -6,19 +6,15 @@ from src.controllers.controller import (
     SignupResource,
     LoginResource,
 )
-from src.config import MONGO_URI, DATABASE_NAME
 from flask_mongoengine import MongoEngine
 from flask_jwt_extended import JWTManager
-
+from .config import DevelopmentConfig
 
 app = Flask(__name__)
+app.config.from_object(DevelopmentConfig)
+
 api = Api(app)
 bcrypt = Bcrypt(app)
-app.config["MONGODB_SETTINGS"] = {
-    "db": DATABASE_NAME,
-    "host": MONGO_URI,
-}
-app.config.from_envvar("ENV_FILE_LOCATION")
 db = MongoEngine(app)
 jwt = JWTManager(app)
 
