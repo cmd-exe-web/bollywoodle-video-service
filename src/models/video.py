@@ -1,12 +1,7 @@
-from pymongo import MongoClient
-from ..config import MONGO_URI, DATABASE_NAME, COLLECTION_NAME
-
-client = MongoClient(MONGO_URI)
-db = client[DATABASE_NAME]
-collection = db[COLLECTION_NAME]
+import mongoengine as me
 
 
-class Video:
-    @staticmethod
-    def create_document(document_name):
-        collection.insert_one({"name": document_name})
+class Video(me.Document):
+    name = me.StringField(required=True, unique=True)
+    url = me.URLField(required=False)
+    s3_object_key = me.StringField(required=True, unique=True)

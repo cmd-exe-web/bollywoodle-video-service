@@ -1,7 +1,9 @@
 import os
 import boto3
-from ..config import AWS_ACCESS_KEY, AWS_SECRET_KEY
 from ..constants import BUCKET_NAME
+
+AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY")
+AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
 
 
 class S3Service:
@@ -18,8 +20,9 @@ class S3Service:
         return object_names
 
     def upload_object(self, file_name):
-        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-        file_path = os.path.join(root_dir, file_name)
-        object_name = file_name
+        # os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+        # file_path = os.path.join(root_dir, file_name)
+        absolute_path = os.path.abspath(file_name)
+        object_name = os.path.basename(file_name)
 
-        self.bucket.upload_file(file_path, object_name)
+        self.bucket.upload_file(absolute_path, object_name)
