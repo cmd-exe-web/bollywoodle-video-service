@@ -1,6 +1,7 @@
 import cv2
 import random
 from pytube import YouTube
+from .video_encoder import encode_to_h264
 
 
 class VideoClipService:
@@ -48,7 +49,9 @@ class VideoClipService:
 
         out.release()
 
-    def create_and_save_clip(self, youtube_url, save_video_path, num_frames_to_collect):
+    def create_and_save_clip(
+        self, youtube_url, save_video_path, num_frames_to_collect, save_video_name
+    ):
         video_stream, total_duration = self.stream_youtube_video(youtube_url)
 
         if video_stream and total_duration:
@@ -59,6 +62,8 @@ class VideoClipService:
             if frames:
                 self.save_frames_as_video(frames, save_video_path)
                 print(f"Random frames saved to {save_video_path}")
+                encode_to_h264(save_video_name, save_video_path)
+                print("Video encoded and saved to directory ./temp")
             else:
                 print("Failed to extract frames from the video.")
         else:
