@@ -14,6 +14,7 @@ distlib==0.3.7
 dnspython==2.4.1
 email-validator==2.0.0.post2
 executing==1.2.0
+ffmpeg==1.4
 filelock==3.12.2
 flake8==6.1.0
 Flask==2.2.3
