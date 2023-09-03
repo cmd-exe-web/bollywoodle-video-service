@@ -34,7 +34,7 @@ class GenerateClipResource(Resource):
             uuid1 = uuid.uuid4()
             save_path = SAVE_VIDEO_PATH.format(uuid1)
             VideoClipService().create_and_save_clip(
-                video_url, save_path, NUM_FRAMES_TO_COLLECT
+                video_url, save_path, NUM_FRAMES_TO_COLLECT, str(uuid1)
             )
             S3Service().upload_object(save_path)
             Video(name=video_name, url=video_url, s3_object_key=str(uuid1)).save()
