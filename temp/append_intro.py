@@ -1,59 +1,43 @@
-import subprocess
+from moviepy.editor import VideoFileClip, concatenate_videoclips
 import os
 
 
-def append_videos(
-    input_video, intro_video=os.path.join(os.getcwd(), "./temp/intro.mp4")
-):
+def append_videos(input_video, intro_video="./temp/intro.mp4"):
+    # Load videos
+    intro_clip = VideoFileClip(intro_video)
+    input_clip = VideoFileClip(input_video)
+
+    # Resize the input clip to match the dimensions of the intro clip
+    input_clip = input_clip.resize(newsize=(intro_clip.size))
+
+    # Concatenate clips
+    final_clip = concatenate_videoclips([intro_clip, input_clip])
+
+    # Get the directory of the input video
+    output_dir = os.path.dirname(input_video)
+
     # Get the filename (without extension) of the input video
-    output_video = os.path.splitext(os.path.basename(input_video))[0]
+    output_video = os.path.splitext(os.path.basename(input_video))[0] + "_combined.mp4"
 
-    # Create a temporary output file
-    temp_output = f"{output_video}_temp.mp4"
+    # Save the final clip to the same directory
+    final_output_path = os.path.join(output_dir, output_video)
+    final_clip.write_videofile(final_output_path, codec="libx264", audio_codec="aac")
 
-    # Resize the input video to match the resolution of the intro video
-    cmd_resize = [
-        "ffmpeg",
-        "-i",
-        input_video,
-        "-vf",
-        "scale=1920:1080",
-        "-c:a",
-        "copy",
-        "resized_input.mp4",
-    ]
-    subprocess.run(cmd_resize)
+    # Close clips
+    intro_clip.close()
+    input_clip.close()
 
-    # Execute ffmpeg command
-    cmd_concat = [
-        "ffmpeg",
-        "-i",
-        intro_video,
-        "-i",
-        "resized_input.mp4",
-        "-filter_complex",
-        "[0:v][1:v]concat=n=2:v=1:a=0[outv]",
-        "-map",
-        "[outv]",
-        "-c:v",
-        "libx264",
-        "-crf",
-        "18",
-        "-c:a",
-        "aac",
-        "-b:a",
-        "192k",
-        temp_output,
-    ]
-    subprocess.run(cmd_concat)
+    # Rename combined output file to input file name
+    os.rename(final_output_path, input_video)
 
-    # Remove resized input video
-    os.remove("resized_input.mp4")
-
-    # Remove original input video
-    os.remove(input_video)
-
-    # Rename the temp output file to the original input video name
-    os.rename(temp_output, input_video)
+    # Delete the original input file
+    # os.remove(input_video)
 
     print(f"Videos have been appended. Output saved as '{input_video}'.")
+
+
+# # Usage example with relative paths
+# input_video = "./temp/ea62d5d6-f89c-41b6-afaa-b5e599050115.mp4"
+# intro_video = "./temp/intro.mp4"
+
+# append_videos(input_video, intro_video)
