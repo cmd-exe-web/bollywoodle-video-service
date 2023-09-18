@@ -19,7 +19,12 @@ class VideoClipService:
             return None, None
 
     def extract_random_frames(
-        self, video_stream, num_frames, total_duration, excluded_start=0, excluded_end=0
+        self,
+        video_stream,
+        num_frames,
+        total_duration,
+        excluded_start=5 * 60,
+        excluded_end=15 * 60,
     ):
         frames = []
         video_capture = cv2.VideoCapture(video_stream)

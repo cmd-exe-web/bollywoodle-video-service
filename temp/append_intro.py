@@ -2,21 +2,35 @@ import subprocess
 import os
 
 
-def append_videos(input_video, intro_video="./temp/intro.mp4"):
-    print(input_video)
+def append_videos(
+    input_video, intro_video=os.path.join(os.getcwd(), "./temp/intro.mp4")
+):
     # Get the filename (without extension) of the input video
     output_video = os.path.splitext(os.path.basename(input_video))[0]
 
     # Create a temporary output file
     temp_output = f"{output_video}_temp.mp4"
 
+    # Resize the input video to match the resolution of the intro video
+    cmd_resize = [
+        "ffmpeg",
+        "-i",
+        input_video,
+        "-vf",
+        "scale=1920:1080",
+        "-c:a",
+        "copy",
+        "resized_input.mp4",
+    ]
+    subprocess.run(cmd_resize)
+
     # Execute ffmpeg command
-    cmd = [
+    cmd_concat = [
         "ffmpeg",
         "-i",
         intro_video,
         "-i",
-        input_video,
+        "resized_input.mp4",
         "-filter_complex",
         "[0:v][1:v]concat=n=2:v=1:a=0[outv]",
         "-map",
@@ -31,8 +45,10 @@ def append_videos(input_video, intro_video="./temp/intro.mp4"):
         "192k",
         temp_output,
     ]
+    subprocess.run(cmd_concat)
 
-    subprocess.run(cmd)
+    # Remove resized input video
+    os.remove("resized_input.mp4")
 
     # Remove original input video
     os.remove(input_video)
