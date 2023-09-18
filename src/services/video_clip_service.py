@@ -2,6 +2,7 @@ import cv2
 import random
 from pytube import YouTube
 from .video_encoder import encode_to_h264
+from temp.append_intro import append_videos
 
 
 class VideoClipService:
@@ -64,6 +65,9 @@ class VideoClipService:
                 print(f"Random frames saved to {save_video_path}")
                 encode_to_h264(save_video_name, save_video_path)
                 print("Video encoded and saved to directory ./temp")
+
+                append_videos("./temp/" + save_video_name + ".mp4")
+
             else:
                 print("Failed to extract frames from the video.")
         else:
